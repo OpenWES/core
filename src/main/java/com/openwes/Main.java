@@ -9,12 +9,7 @@ import com.openwes.core.Application;
 public class Main {
 
     public static void main(String[] args) {
-        Application.newApp()
-                .readConfig()
-                .readArg(args)
-                .startIoc()
-                .bootstrap()
-                .start();
+        Application.run();
     }
 
 }
