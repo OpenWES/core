@@ -11,6 +11,15 @@
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
+	
+	<distributionManagement>
+		<repository>
+			<id>openwes-core</id>
+			<name>GitHub OpenWES Apache Maven Packages</name>
+			<url>https://maven.pkg.github.com/OpenWES/core</url>
+		</repository>
+	</distributionManagement>
+	
 	<dependencies>
 		<!-- https://mvnrepository.com/artifact/com.typesafe/config -->
 		<dependency>
