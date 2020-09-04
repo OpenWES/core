@@ -50,7 +50,7 @@ public class UniqId {
     /**
      * Return unique id in one process
      *
-     * @return
+     * @return string
      */
     public final static String procUniqId() {
         ByteBuffer byteBuffer = ByteBuffer.allocate(8)
@@ -72,7 +72,7 @@ public class UniqId {
      * <pre>
      * }
      *
-     * @return
+     * @return string
      */
     public final static String snowflakeIdStr() {
         return String.valueOf(instance().snowflake().nextId());
@@ -89,7 +89,7 @@ public class UniqId {
      * <pre>
      * }
      *
-     * @return
+     * @return long
      */
     public final static long snowflakeId() {
         return instance().snowflake().nextId();
@@ -104,7 +104,7 @@ public class UniqId {
      * <pre>
      * }
      *
-     * @return
+     * @return string
      */
     public final static String uniqId16Bytes() {
         return Hex.encodeHexString(instance().generate16BytesId());
@@ -119,7 +119,7 @@ public class UniqId {
      * <pre>
      * }
      *
-     * @return
+     * @return string
      */
     public final static String uniqId12Bytes() {
         return Hex.encodeHexString(instance().generate12BytesId());

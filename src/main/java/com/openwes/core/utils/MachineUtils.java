@@ -2,12 +2,15 @@ package com.openwes.core.utils;
 
 import java.lang.management.ManagementFactory;
 import java.lang.management.RuntimeMXBean;
+import java.net.Inet6Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.security.SecureRandom;
 import java.util.Enumeration;
+import java.util.HashSet;
+import java.util.Set;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -15,6 +18,32 @@ import org.apache.commons.lang3.StringUtils;
  * @author xuanloc0511@gmail.com
  */
 public final class MachineUtils {
+
+    /**
+     *
+     * @return list of probably IP of current host
+     */
+    public final static Set<String> getIpProbable() {
+        Set<String> probabilities = new HashSet<>();
+        try {
+            InetAddress inet = InetAddress.getLocalHost();
+            InetAddress[] ips = InetAddress.getAllByName(inet.getCanonicalHostName());
+            if (ips != null) {
+                for (InetAddress ip : ips) {
+                    if (ip instanceof Inet6Address) {
+                        continue;
+                    }
+                    if (ip == null) {
+                        continue;
+                    }
+                    probabilities.add(ip.getHostAddress());
+                }
+            }
+        } catch (UnknownHostException e) {
+
+        }
+        return probabilities;
+    }
 
     public final static InetAddress findAnyProbalyIP() throws UnknownHostException {
         try {
@@ -70,7 +99,7 @@ public final class MachineUtils {
     public final static String getHostname() {
         try {
             return InetAddress.getLocalHost().getHostName();
-        } catch (Exception e) {
+        } catch (UnknownHostException e) {
         }
         return "localhost";
     }
@@ -78,7 +107,7 @@ public final class MachineUtils {
     /**
      * Return a value is hashed of MAC address
      *
-     * @return
+     * @return integer
      */
     public final static int getMachineId() {
         int nodeId;
@@ -105,7 +134,7 @@ public final class MachineUtils {
     /**
      * Return IP of service in format xxx.xxx.xxx.xxx
      *
-     * @return
+     * @return string
      */
     public final static String getCurrentIpStr() {
         StringBuilder mBuilder = new StringBuilder();

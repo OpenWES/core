@@ -15,10 +15,8 @@ import org.apache.commons.lang3.StringUtils;
 public class ClassUtils {
 
     /**
-     * get super class from a class
-     *
      * @param c
-     * @return
+     * @return get super class from a class
      */
     private static Set<Class<?>> supers(Class<?> c) {
         if (c == null) {
@@ -31,11 +29,9 @@ public class ClassUtils {
     }
 
     /**
-     * return lowest common super class of a and b
-     *
      * @param a
      * @param b
-     * @return
+     * @return lowest common super class of a and b
      */
     private static Class<?> lowestCommonSuper(Class<?> a, Class<?> b) {
         Set<Class<?>> aSupers = supers(a);
@@ -46,10 +42,9 @@ public class ClassUtils {
     }
 
     /**
-     * guess component type of java collection
      *
      * @param collection
-     * @return
+     * @return guess component type of java collection
      */
     public final static Class<?> guessElementType(Collection<?> collection) {
         Class<?> guess = null;
@@ -66,10 +61,9 @@ public class ClassUtils {
     }
 
     /**
-     * guess component type of java iterator
      *
      * @param iterator
-     * @return
+     * @return component type of java iterator
      */
     public final static Class<?> guessElementType(Iterator<?> iterator) {
         Class<?> guess = null;
@@ -87,11 +81,9 @@ public class ClassUtils {
     }
 
     /**
-     * Return class object that associated by key provided as parameter without
-     * initialized.
-     *
      * @param key
-     * @return
+     * @return class object that associated by key provided as parameter without
+     * initialized.
      * @throws ClassLoadException
      */
     public final static Class load(String key) throws ClassLoadException {
@@ -103,12 +95,10 @@ public class ClassUtils {
     }
 
     /**
-     * return object that associated with key provided without parameters in
-     * constructor.
-     *
      * @param <T>
      * @param key
-     * @return
+     * @return object that associated with key provided without parameters in
+     * constructor.
      * @throws ClassLoadException
      */
     public final static <T> T object(String key) throws ClassLoadException {
@@ -135,13 +125,11 @@ public class ClassUtils {
     }
 
     /**
-     * return object that associated with key provided with many parameters in
-     * constructor.
-     *
      * @param key
      * @param args
      * @param parameters
-     * @return
+     * @return object that associated with key provided with many parameters in
+     * constructor.
      * @throws ClassLoadException
      */
     public final static <T> T object(String key, Class[] parameters, Object[] args) throws ClassLoadException {

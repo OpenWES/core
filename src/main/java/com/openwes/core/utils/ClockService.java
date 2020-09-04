@@ -66,14 +66,14 @@ public final class ClockService {
     }
 
     /**
-     * return first timestamp of today
+     *
      * <pre>
      * i.e:
      *  - today is 23 August, 2019
      *  - result will be 2019-08-23 00:00:00.000
      * </pre>
      *
-     * @return
+     * @return first timestamp of today in milliseconds
      */
     public final static long beginOfDay() {
         Calendar calendar = Calendar.getInstance();
@@ -85,14 +85,14 @@ public final class ClockService {
     }
 
     /**
-     * return first timestamp of current moth
+     *
      * <pre>
      * i.e:
      *  - current month is August, 2019
      *  - result will be 2019-08-01 00:00:00.000
      * </pre>
      *
-     * @return
+     * @return first timestamp of current moth in milliseconds
      */
     public final static long beginOfMonth() {
         Calendar calendar = Calendar.getInstance();
@@ -105,14 +105,13 @@ public final class ClockService {
     }
 
     /**
-     * return last timestamp of the day
      * <pre>
      * i.e:
      *  - current day is 23 August, 2019
      *  - result will be 2019-08-23 23:59:59.000
      * </pre>
      *
-     * @return
+     * @return last timestamp of the day in milliseconds
      */
     public final static long endOfDay() {
         Calendar calendar = Calendar.getInstance();
@@ -124,14 +123,13 @@ public final class ClockService {
     }
 
     /**
-     * return last timestamp of current month
      * <pre>
      * i.e:
      *  - current month is August, 2019
      *  - result will be 2019-08-31 23:59:59.000
      * </pre>
      *
-     * @return
+     * @return last timestamp of current month in milliseconds
      */
     public final static long endOfMonth() {
         Calendar calendar = Calendar.getInstance();

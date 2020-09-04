@@ -6,14 +6,10 @@ import com.typesafe.config.Config;
 import com.typesafe.config.ConfigValue;
 import java.io.File;
 import java.io.IOException;
-import java.net.Inet6Address;
-import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
-import java.net.UnknownHostException;
 import java.nio.charset.Charset;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicLong;
@@ -40,7 +36,7 @@ public final class Utils {
      * Encode string to byte array
      *
      * @param s
-     * @return
+     * @return a byte array
      */
     public final static byte[] bytes(String s) {
         Validate.notEmpty(s);
@@ -51,8 +47,9 @@ public final class Utils {
      * Encode object to bytes
      *
      * @param obj
-     * @return
+     * @return a byte array
      */
+    
     public final static byte[] bytes(Object obj) {
         Validate.notNull(obj);
         return bytes(marshal(obj));
@@ -62,7 +59,7 @@ public final class Utils {
      * Decode string from byte array
      *
      * @param bytes
-     * @return
+     * @return string
      */
     public final static String string(byte[] bytes) {
         return new String(bytes, UTF8);
@@ -74,20 +71,37 @@ public final class Utils {
      * @param <T>
      * @param jsonInBytes
      * @param clzz
-     * @return
+     * @return an object
      */
     public final static <T extends Object> T object(byte[] jsonInBytes, Class<T> clzz) {
         return unmarshal(string(jsonInBytes), clzz);
     }
 
+    /**
+     * Serialize an object to JSON
+     * @param o
+     * @return JSON string
+     */
     public final static String marshal(Object o) {
         return GSON.toJson(o);
     }
 
+    /**
+     * De-serialize JSON string to a specific object
+     * @param <T>
+     * @param str
+     * @param clzz
+     * @return an object
+     */
     public final static <T extends Object> T unmarshal(String str, Class<T> clzz) {
         return GSON.fromJson(str, clzz);
     }
 
+    /**
+     * Extract external name from path of a file
+     * @param filePath
+     * @return external name of file
+     */
     public final static String getExtFile(String filePath) {
         for (int i = filePath.length() - 1; i >= 0; i--) {
             char c = filePath.charAt(i);
@@ -98,10 +112,23 @@ public final class Utils {
         return filePath;
     }
 
+    /**
+     * Check port is either already bind or not
+     * @param host
+     * @param port
+     * @return true if it is available
+     */
     public final static boolean checkHostAddress(String host, int port) {
         return checkHostAddress(host, port, 5000);
     }
 
+    /**
+     * Check port is either already bind or not within a duration
+     * @param host
+     * @param port
+     * @param timeoutMs
+     * @return true if it is available
+     */
     public final static boolean checkHostAddress(String host, int port, int timeoutMs) {
         Socket socket = new Socket();
         try {
@@ -118,6 +145,11 @@ public final class Utils {
         return false;
     }
 
+    /**
+     * Convert byte array to hex
+     * @param arr
+     * @return string
+     */
     public final static String printMessageHex(byte[] arr) {
         StringBuilder mBuilder = new StringBuilder();
         try {
@@ -130,25 +162,12 @@ public final class Utils {
         }
     }
 
-    public final static Set<String> getIpProbable() {
-        Set<String> probabilities = new HashSet<>();
-        try {
-            InetAddress inet = InetAddress.getLocalHost();
-            InetAddress[] ips = InetAddress.getAllByName(inet.getCanonicalHostName());
-            if (ips != null) {
-                for (InetAddress ip : ips) {
-                    if (ip instanceof Inet6Address) {
-                        continue;
-                    }
-                    probabilities.add(ip.getHostAddress());
-                }
-            }
-        } catch (UnknownHostException e) {
-
-        }
-        return probabilities;
-    }
-
+    /**
+     * Extract a set of key from configuration
+     * @param config
+     * @param dotCounter
+     * @return set of key
+     */
     public final static Set<String> getSetOfKey(Config config, int dotCounter) {
         return config.entrySet()
                 .stream().map((Map.Entry<String, ConfigValue> entry) -> {
@@ -161,6 +180,12 @@ public final class Utils {
                 .collect(Collectors.toSet());
     }
 
+    /**
+     * Extract prefix of a specific key
+     * @param fullKey
+     * @param dotCounter
+     * @return prefix
+     */
     public final static String getPrefixOfKey(String fullKey, int dotCounter) {
         StringBuilder mBuilder = new StringBuilder();
         int dotCount = 0;
