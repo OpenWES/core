@@ -15,6 +15,9 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.openwes.core.interfaces.Initializer;
+import com.openwes.core.utils.ClassLoadException;
+import com.typesafe.config.ConfigRenderOptions;
+import java.util.logging.Level;
 
 /**
  *
@@ -51,21 +54,29 @@ public class Application {
     synchronized Application bootstrap() {
         //setup node id for id generator
         UniqId.instance().initSnowFlakeIdGenerator(config.getInt("application.node-id"));
-        
+
         //setup logging 
         LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
         InitLogbackConfigurator initLogbackConfigurator = new InitLogbackConfigurator();
         initLogbackConfigurator.setConfig(config.getConfig("application.log"));
         initLogbackConfigurator.configure(loggerContext);
-        
-        //setup ioc
-        IOC.instance().start(config.getConfig("ioc"));
-        
-        //run startup services
+
         try {
+            //setup ioc
+            IOC.instance().start(config.getConfig("ioc"));
+
+            //run startup services
             runStartups();
         } catch (Exception ex) {
             throw new RuntimeException(ex);
+        }
+        Test t = new Test();
+        t.print();
+        
+        try {
+            t = ClassUtils.object(Test.class.getName());
+            t.print();
+        } catch (ClassLoadException ex) {
         }
         return this;
     }
@@ -108,7 +119,6 @@ public class Application {
                         });
                     }
                 });
-
     }
 
     synchronized void start() {

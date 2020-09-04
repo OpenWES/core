@@ -121,7 +121,7 @@ public class ClassUtils {
         if (loader == null) {
             loader = ClassUtils.class.getClassLoader();
         }
-        return Class.forName(cleanASCIIText(key), true, loader);
+        return Class.forName(cleanASCIIText(key), false, loader);
     }
 
     /**
