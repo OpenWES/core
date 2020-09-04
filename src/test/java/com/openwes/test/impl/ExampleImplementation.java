@@ -1,8 +1,7 @@
-package com.openwes.test;
+package com.openwes.test.impl;
 
 import com.openwes.core.annotation.Implementation;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.openwes.test.ExampleInterface;
 
 /**
  *

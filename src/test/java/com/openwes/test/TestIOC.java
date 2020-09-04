@@ -1,7 +1,7 @@
 package com.openwes.test;
 
 import com.openwes.core.Application;
-import com.openwes.core.IOC;
+import static com.openwes.core.IOC.init;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,7 +22,7 @@ public class TestIOC {
 
     @Test
     public void test() {
-        ExampleInterface exam = IOC.resolve(ExampleInterface.class);
+        ExampleInterface exam = init(ExampleInterface.class);
         String s = exam.helloWorld();
         Assert.assertEquals("Check message of interface", "Say hello world!!!", s);
     }

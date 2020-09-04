@@ -15,9 +15,6 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.openwes.core.interfaces.Initializer;
-import com.openwes.core.utils.ClassLoadException;
-import com.typesafe.config.ConfigRenderOptions;
-import java.util.logging.Level;
 
 /**
  *
@@ -64,19 +61,10 @@ public class Application {
         try {
             //setup ioc
             IOC.instance().start(config.getConfig("ioc"));
-
             //run startup services
             runStartups();
         } catch (Exception ex) {
             throw new RuntimeException(ex);
-        }
-        Test t = new Test();
-        t.print();
-        
-        try {
-            t = ClassUtils.object(Test.class.getName());
-            t.print();
-        } catch (ClassLoadException ex) {
         }
         return this;
     }

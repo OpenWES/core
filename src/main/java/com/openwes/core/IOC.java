@@ -18,7 +18,6 @@ public class IOC {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(IOC.class);
     public final static IOC INSTANCE = new IOC();
-
     public final static IOC instance() {
         return INSTANCE;
     }
@@ -62,7 +61,7 @@ public class IOC {
         return registry.loadClass(clzz);
     }
 
-    public final static <P extends Object, T extends P> T resolve(Class<P> clzz) {
+    public final static <P extends Object, T extends P> T init(Class<P> clzz) {
         try {
             return instance().loadClass(clzz);
         } catch (Exception ex) {
