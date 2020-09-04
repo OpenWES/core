@@ -15,6 +15,9 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.openwes.core.interfaces.Initializer;
+import com.openwes.core.utils.KeystoreOpts;
+import com.openwes.core.utils.KeystoreUtils;
+import com.openwes.core.utils.Validate;
 
 /**
  *
@@ -25,11 +28,24 @@ public class Application {
     private final static Logger LOGGER = LoggerFactory.getLogger(Application.class);
     private final static Application APP = new Application();
 
+    public final static Application app() {
+        return APP;
+    }
+
     private Application() {
 
     }
 
     private Config config = ConfigFactory.empty();
+    private KeystoreOpts keystoreOpts;
+
+    private KeystoreOpts getKeystoreOpts() {
+        return keystoreOpts;
+    }
+
+    public final static KeystoreOpts keystoreOpts() {
+        return app().getKeystoreOpts();
+    }
 
     final static Application newApp() {
         return APP;
@@ -45,6 +61,64 @@ public class Application {
             config = ConfigFactory.load()
                     .withFallback(config).resolve();
         }
+        return this;
+    }
+
+    synchronized Application loadKeystoreIfExist() {
+        String keystorePath = System.getProperty("javax.net.ssl.keyStore", null);
+        String keystoreType = System.getProperty("javax.net.ssl.keyStoreType", null);
+        String keystorePass = System.getProperty("javax.net.ssl.keyStorePassword", null);
+        String keystoreAlias = System.getProperty("javax.net.ssl.keyStoreAlias", null);
+
+        if (Validate.isEmpty(keystorePath)) {
+            if (config.hasPath("application.keystore.path")) {
+                keystorePath = config.getString("application.keystore.path");
+            }
+        }
+
+        if (Validate.isEmpty(keystorePath)) {
+            return this;
+        }
+
+        if (Validate.isEmpty(keystorePass)) {
+            if (config.hasPath("application.keystore.password")) {
+                keystorePass = config.getString("application.keystore.password");
+            }
+        }
+
+        if (Validate.isEmpty(keystorePass)) {
+            LOGGER.error("Keystore path is configured but keystore-password is not configured.");
+            return this;
+        }
+
+        if (Validate.isEmpty(keystoreType)) {
+            if (config.hasPath("application.keystore.type")) {
+                keystoreType = config.getString("application.keystore.type");
+            }
+        }
+
+        if (Validate.isEmpty(keystoreAlias)) {
+            if (config.hasPath("application.keystore.alias")) {
+                keystoreAlias = config.getString("application.keystore.alias");
+            }
+        }
+
+        if (Validate.isEmpty(keystoreType)) {
+            keystoreType = Utils.getExtFile(keystorePath).toLowerCase();
+        }
+
+        if (!keystoreType.equals("jks")
+                && !keystoreType.equals("keystore")
+                && !keystoreType.equals("p12")
+                && !keystoreType.equals("pfx")
+                && !keystoreType.equals("pem")) {
+            LOGGER.error("Type " + keystoreType + " of certificate was not supported. Common certificate configuration will be disabled.");
+            return this;
+        }
+
+        keystoreOpts = new KeystoreOpts(keystorePath, keystorePass, keystoreType, keystoreAlias);
+        LOGGER.info("Found a common keystore configuration for all java application at {} with type is {} and alias is {} ", keystorePath, keystoreType, keystoreAlias);
+        KeystoreUtils.validKeystore(keystorePath, keystorePass, keystoreAlias, true);
         return this;
     }
 
@@ -116,6 +190,7 @@ public class Application {
     public final static void run() {
         Application.newApp()
                 .readConfig()
+                .loadKeystoreIfExist()
                 .bootstrap()
                 .start();
     }
