@@ -45,7 +45,7 @@ public class IOC {
         List<String> totalPackages = new ArrayList<>();
         for (Config c : configs) {
             List<String> packages = c.getStringList("packages");
-            if (packages == null) {
+            if (packages == null || packages.isEmpty()) {
                 continue;
             }
             LOGGER.info("register packages {} for scanning", packages);

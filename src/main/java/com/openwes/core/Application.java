@@ -161,6 +161,9 @@ public class Application {
         List<Initializer> modules = new ArrayList<>();
         for (Config c : configs) {
             String handler = c.getString("handler");
+            if (Validate.isEmpty(handler)) {
+                continue;
+            }
             final Initializer module = ClassUtils.object(handler);
             module.onStart(config.hasPath(module.configKey()) ? config.getConfig(module.configKey()) : config);
             modules.add(module);
