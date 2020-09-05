@@ -15,6 +15,7 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.openwes.core.interfaces.Initializer;
+import com.openwes.core.logging.LogContext;
 import com.openwes.core.utils.KeystoreOpts;
 import com.openwes.core.utils.KeystoreUtils;
 import com.openwes.core.utils.Validate;
@@ -131,7 +132,7 @@ public class Application {
         InitLogbackConfigurator initLogbackConfigurator = new InitLogbackConfigurator();
         initLogbackConfigurator.setConfig(config.getConfig("application.log"));
         initLogbackConfigurator.configure(loggerContext);
-
+        LogContext.set(LogContext.TXID, "main");
         try {
             //setup ioc
             IOC.instance().start(config.getConfig("ioc"));
@@ -175,6 +176,7 @@ public class Application {
                 .addShutdownHook(new Thread() {
                     @Override
                     public void run() {
+                        LogContext.set(LogContext.TXID, "shutdown");
                         modules.forEach(module -> {
                             try {
                                 LOGGER.info("shutdown service {}", module.getClass().getName());
