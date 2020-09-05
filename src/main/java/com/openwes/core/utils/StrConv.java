@@ -3,11 +3,9 @@ package com.openwes.core.utils;
 import java.util.Map;
 
 /**
- *
- * @author Deadpool {@literal (locngo@fortna.com)}
- * @since Jun 24, 2019
- * @version 1.0.0
- *
+ * 
+ * @author xuanloc0511@gmail.com
+ * 
  */
 public class StrConv {
 

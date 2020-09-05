@@ -4,9 +4,7 @@ import com.openwes.core.utils.Validate;
 
 /**
  *
- * @author Deadpool {@literal (locngo@fortna.com)}
- * @since Jul 30, 2019
- * @version 1.0.0
+ * @author xuanloc0511@gmail.com
  *
  */
 class AppenderFactory {

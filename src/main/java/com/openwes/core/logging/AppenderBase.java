@@ -14,11 +14,7 @@ import com.typesafe.config.Config;
 import java.util.Map;
 
 /**
- *
- * @author Deadpool {@literal (locngo@fortna.com)}
- * @since Jul 25, 2019
- * @version 1.0.0
- *
+ * @author xuanloc0511@gmail.com
  */
 public abstract class AppenderBase {
 

@@ -7,11 +7,7 @@ import com.openwes.core.utils.Validate;
 import com.typesafe.config.Config;
 
 /**
- *
- * @author Deadpool {@literal (locngo@fortna.com)}
- * @since Oct 5, 2019
- * @version 1.0.0
- *
+ * @author xuanloc0511@gmail.com
  */
 public class AppenderSocket extends AppenderBase {
 

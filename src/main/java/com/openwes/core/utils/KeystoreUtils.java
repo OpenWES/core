@@ -7,11 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
- * @author Deadpool {@literal (locngo@fortna.com)}
- * @since Jun 13, 2018
- * @version 1.0.0
- *
+ * 
+ * @author xuanloc0511@gmail.com
  */
 public final class KeystoreUtils {
 

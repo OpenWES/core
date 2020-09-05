@@ -5,11 +5,7 @@ import ch.qos.logback.contrib.json.classic.JsonLayout;
 import java.util.Map;
 
 /**
- *
- * @author locngo@fortna.com
- * @since May 23, 2020
- * @version 1.0.0
- *
+ * @author xuanloc0511@gmail.com
  */
 public class JsonWithLineNumberLayout extends JsonLayout {
 

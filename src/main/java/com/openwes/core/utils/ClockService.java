@@ -7,8 +7,8 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 /**
- *
- * @author locngo@fortna.com
+ * 
+ * @author xuanloc0511@gmail.com
  */
 public final class ClockService {
 

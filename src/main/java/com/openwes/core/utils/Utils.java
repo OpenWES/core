@@ -17,11 +17,9 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- *
- * @author locngo@fortna.com
- * @since Jul 7, 2017
- * @version 1.0.0
- *
+ * 
+ * @author xuanloc0511@gmail.com
+ * 
  */
 public final class Utils {
 

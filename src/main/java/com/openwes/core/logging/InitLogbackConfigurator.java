@@ -19,11 +19,7 @@ import com.typesafe.config.ConfigValue;
 import java.util.Set;
 
 /**
- *
- * @author Deadpool {@literal (locngo@fortna.com)}
- * @since Jul 25, 2019
- * @version 1.0.0
- *
+ * @author xuanloc0511@gmail.com
  */
 public class InitLogbackConfigurator extends ContextAwareBase implements Configurator {
 
