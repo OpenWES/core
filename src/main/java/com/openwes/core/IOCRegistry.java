@@ -2,8 +2,10 @@ package com.openwes.core;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.reflect.ClassPath;
+import com.openwes.core.annotation.CurrentImplementation;
 import com.openwes.core.annotation.Implementation;
 import com.openwes.core.utils.ClassUtils;
+import com.openwes.core.utils.Validate;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.util.HashMap;
@@ -31,7 +33,12 @@ class IOCRegistry {
         if (anno == null || !(anno instanceof Implementation)) {
             return;
         }
-        mapping.put(((Implementation) anno).source().getName(), clzz);
+        String sourceName = ((Implementation) anno).source().getName();
+        if (CurrentImplementation.class.getName().equals(sourceName)) {
+            mapping.put(clzz.getName(), clzz);
+        } else {
+            mapping.put(sourceName, clzz);
+        }
     }
 
     public <P extends Object, T extends P> T loadClass(Class<P> clzz) throws Exception {
