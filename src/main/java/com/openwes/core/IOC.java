@@ -18,6 +18,7 @@ public class IOC {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(IOC.class);
     public final static IOC INSTANCE = new IOC();
+
     public final static IOC instance() {
         return INSTANCE;
     }
@@ -42,19 +43,26 @@ public class IOC {
             return orderLeft - orderRight;
         });
 
-        List<String> totalPackages = new ArrayList<>();
+        List<IOCScanConfig> scanConfigs = new ArrayList<>();
         for (Config c : configs) {
             List<String> packages = c.getStringList("packages");
             if (packages == null || packages.isEmpty()) {
                 continue;
             }
-            LOGGER.info("register packages {} for scanning", packages);
-            totalPackages.addAll(packages);
+
+            List<String> includes = c.hasPath("includes") ? c.getStringList("includes") : null;
+            List<String> excludes = c.hasPath("excludes") ? c.getStringList("excludes") : null;
+            LOGGER.info("register packages {} for scanning ", packages);
+            scanConfigs.add(new IOCScanConfig()
+                    .setPackages(packages)
+                    .setExcludes(excludes)
+                    .setIncludes(includes));
         }
 
-        for (String packageName : totalPackages) {
-            registry.register(packageName);
+        for (IOCScanConfig scanConfig : scanConfigs) {
+            registry.register(scanConfig);
         }
+
     }
 
     public <P extends Object, T extends P> T loadClass(Class<P> clzz) throws Exception {
