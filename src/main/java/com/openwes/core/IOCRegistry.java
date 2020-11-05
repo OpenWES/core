@@ -2,11 +2,13 @@ package com.openwes.core;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.reflect.ClassPath;
+import com.openwes.core.annotation.AutoInject;
 import com.openwes.core.annotation.CurrentImplementation;
 import com.openwes.core.annotation.Implementation;
 import com.openwes.core.utils.ClassUtils;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -86,6 +88,20 @@ class IOCRegistry {
         Constructor<?> contructor = c.getConstructor();
         contructor.setAccessible(true);
         Object obj = contructor.newInstance();
+
+        Class<?> current = c;
+        while (current.getSuperclass() != null) {
+            Field[] fields = current.getDeclaredFields();
+            for (Field field : fields) {
+                AutoInject anno = field.getDeclaredAnnotation(AutoInject.class);
+                if (anno == null) {
+                    continue;
+                }
+                field.setAccessible(true);
+                field.set(obj, loadClass(field.getType()));
+            }
+            current = current.getSuperclass();
+        }
         return (T) obj;
     }
 }
