@@ -13,6 +13,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Implementation {
 
-    Class<?> source() default CurrentImplementation.class;
+    Class<?> of() default CurrentClass.class;
 
 }

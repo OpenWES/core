@@ -2,8 +2,7 @@ package com.openwes.core;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.reflect.ClassPath;
-import com.openwes.core.annotation.AutoInject;
-import com.openwes.core.annotation.CurrentImplementation;
+import com.openwes.core.annotation.CurrentClass;
 import com.openwes.core.annotation.Implementation;
 import com.openwes.core.utils.ClassUtils;
 import java.lang.annotation.Annotation;
@@ -14,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
+import com.openwes.core.annotation.Inject;
 
 /**
  *
@@ -72,8 +72,8 @@ class IOCRegistry {
         if (anno == null || !(anno instanceof Implementation)) {
             return;
         }
-        String sourceName = ((Implementation) anno).source().getName();
-        if (CurrentImplementation.class.getName().equals(sourceName)) {
+        String sourceName = ((Implementation) anno).of().getName();
+        if (CurrentClass.class.getName().equals(sourceName)) {
             mapping.put(clzz.getName(), clzz);
         } else {
             mapping.put(sourceName, clzz);
@@ -83,7 +83,7 @@ class IOCRegistry {
     public <P extends Object, T extends P> T loadClass(Class<P> clzz) throws Exception {
         Class<?> c = mapping.get(clzz.getName());
         if (c == null) {
-            throw new NullPointerException("not found any implementation of " + clzz.getName());
+            c = clzz;
         }
         Constructor<?> contructor = c.getConstructor();
         contructor.setAccessible(true);
@@ -93,11 +93,13 @@ class IOCRegistry {
         while (current.getSuperclass() != null) {
             Field[] fields = current.getDeclaredFields();
             for (Field field : fields) {
-                AutoInject anno = field.getDeclaredAnnotation(AutoInject.class);
+                Inject anno = field.getDeclaredAnnotation(Inject.class);
                 if (anno == null) {
                     continue;
                 }
-                field.setAccessible(true);
+                if (!field.canAccess(obj)) {
+                    field.setAccessible(true);
+                }
                 field.set(obj, loadClass(field.getType()));
             }
             current = current.getSuperclass();

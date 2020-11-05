@@ -7,7 +7,7 @@ import com.openwes.test.TestInjectInterface;
  *
  * @author xuanloc0511@gmail.com
  */
-@Implementation(source = TestInjectInterface.class)
+@Implementation(of = TestInjectInterface.class)
 public class TestInjectImplementation implements TestInjectInterface {
 
     @Override

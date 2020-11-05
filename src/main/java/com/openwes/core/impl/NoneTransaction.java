@@ -7,7 +7,7 @@ import com.openwes.core.annotation.Implementation;
  *
  * @author xuanloc0511@gmail.com
  */
-@Implementation(source = Transaction.class)
+@Implementation(of = Transaction.class)
 public class NoneTransaction implements Transaction {
 
     @Override
