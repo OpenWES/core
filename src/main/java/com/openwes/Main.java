@@ -8,7 +8,7 @@ import com.openwes.core.Application;
  */
 public class Main {
 
-    public static void main(String[] args) {
+    public final static void main(String[] args) {
         Application.run();
     }
 
