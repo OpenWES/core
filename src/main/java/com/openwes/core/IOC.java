@@ -65,11 +65,11 @@ public class IOC {
 
     }
 
-    public <P extends Object, T extends P> T loadClass(Class<P> clzz) throws Exception {
+    public <P extends Object> P loadClass(Class<P> clzz) throws Exception {
         return registry.loadClass(clzz);
     }
 
-    public final static <P extends Object, T extends P> T init(Class<P> clzz) {
+    public final static <P extends Object> P init(Class<P> clzz) {
         try {
             return instance().loadClass(clzz);
         } catch (Exception ex) {
