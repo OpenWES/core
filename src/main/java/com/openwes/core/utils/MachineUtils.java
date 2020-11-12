@@ -87,7 +87,7 @@ public final class MachineUtils {
     public final static byte[] getCurrentIp() {
         try {
             String prefixIp = System.getenv("APP_IP");
-            if (Validate.isEmpty(prefixIp)) {
+            if (!Validate.isEmpty(prefixIp)) {
                 return ipv4StringToBytes(prefixIp);
             }
             return findAnyProbalyIP().getAddress();
