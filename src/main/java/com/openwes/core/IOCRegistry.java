@@ -97,9 +97,7 @@ class IOCRegistry {
                 if (anno == null) {
                     continue;
                 }
-                if (!field.canAccess(obj)) {
-                    field.setAccessible(true);
-                }
+                field.setAccessible(true);
                 field.set(obj, loadClass(field.getType()));
             }
             current = current.getSuperclass();
